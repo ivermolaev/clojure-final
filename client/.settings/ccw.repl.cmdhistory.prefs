@@ -1,0 +1,2 @@
+cmdhistory=["(start-client 5553)" "(send-message \\"yo\\")" "(send-message \\"hoho\\")" "(parse-string \\"a\\")" "(generate-string {\:foo \\"bar\\" \:baz 5})" "(use '(cheshire.core))" "(generate-string {\:foo \\"bar\\" \:baz 5})" "\\n(require [cheshire.core \:refer \:all])"]
+eclipse.preferences.version=1
