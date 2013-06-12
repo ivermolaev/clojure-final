@@ -17,10 +17,12 @@
     (println "Server started on port: " port)
     (while running? 
       (let [player-socket (accept-connection server-socket)]
+        (println "Player joined")
         (if-let [opponent-socket @awaiting-socket]
-          (start-game 
-            (create-player opponent-socket :white)
-            (create-player player-socket :black))
+          (future 
+            (start-game 
+              (create-player opponent-socket :white)
+              (create-player player-socket :black)))
           (reset! awaiting-socket player-socket))))))
 
 (defn -main
