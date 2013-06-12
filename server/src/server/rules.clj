@@ -112,8 +112,6 @@
 (def promotion-pieces #{:queen :knight :rook :bishop})
 
 (defn promote-pawn-at-square [square pawn-owner promotion-piece]
-  (println "----" (:pieces-color @pawn-owner) "chose promotion" promotion-piece "at" square) 
-  (println "Valid promotion:" (promotion-pieces promotion-piece))
   (when (promotion-pieces promotion-piece)
     (dosync
      (alter pawn-owner update-in [:pieces :pawn] disj square)
@@ -349,7 +347,6 @@
 
 (defmethod make-move :king
   [piece [fr-file fr-rank :as from] [to-file to-rank :as to] piece-owner opponent]
-  (println "King move from: " from " to: " to)
   (let [action (move-piece piece
                            from 
                            to 
@@ -361,8 +358,6 @@
 	          rook-new-square (if (> to-file fr-file)
 	                            [(dec to-file) to-rank]
 	                            [(inc to-file) to-rank])]
-       (println (:pieces @piece-owner))
-       (println "Rook square: " rook-square)
        ;; Just in case
        (assert (= :rook (piece-on-square rook-square piece-owner)))
        (assert (not (piece-on-square rook-new-square piece-owner)))

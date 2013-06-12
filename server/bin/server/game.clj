@@ -48,7 +48,6 @@
                                            content))
                     
                     true (generate-string))]
-    (println "Message with type:" type "and content" content)
     (.println (:out-stream @receiver) msg)
     (printf "Message sent to %s: %s\n" (:pieces-color @receiver) msg)))
 
