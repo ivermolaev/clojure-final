@@ -23,7 +23,7 @@
 ;;=====================================================================
 
 (defn align-location
-  "Returns the location on which widget will be centered in given cell."
+  "Alignes the widget location so it's center will be x y"
   [widget [x y]]
   [(- x (int (/ (width widget) 2)))
    (- y (int (/ (height widget) 2)))])
@@ -89,7 +89,9 @@
               (.contains c (- x (.getX c)) (- y (.getY c)))) 
             (.getComponents board-panel))))
 
-(defn can-move-widget-by? [widget [dx dy]]
+(defn can-move-widget-by?
+  "Checks if widget will go out of bounds if moved by dx dy"
+  [widget [dx dy]]
   (let [loc (config widget :location)
         min-x (+ (.x loc) dx)
         max-x (+ min-x (width widget))
@@ -146,7 +148,9 @@
 (defn piece-image-path [color name]
   (format "resources/%s_%s.png" name color))
 
-(defn add-piece-to-board [color name loc movable?]
+(defn add-piece-to-board
+  "Adds widget with image of the corresponding piece and color"
+  [color name loc movable?]
   (let [icon (-> (piece-image-path color name) io/file icon)
         widget (doto (label :icon icon)
                      (config! :bounds :preferred))]

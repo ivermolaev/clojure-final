@@ -15,8 +15,8 @@
     (and (= from (:from t)) 
          (= piece (:piece t)))))
 
-(defn promotion? [square action]
-  (when-let [promo (:promotion action)]
+(defn promote? [square action]
+  (when-let [promo (:promote action)]
     (= square (:from promo))))
 
 (defn castling? [from to action]
@@ -43,6 +43,7 @@
                             :bishop #{[1 2] [1 3]}}})]
     ;; forbidden moves
     (is (invalid-move? (make-move :pawn [1 1] [1 3] p-w p-b)) "Jump over enemy bishop")
+    (is (invalid-move? (make-move :pawn [1 1] [1 2] p-w p-b)) "White move to occupied square infront of it")
     (is (invalid-move? (make-move :pawn [0 1] [0 0] p-w p-b)) "White move backwards")
     (is (invalid-move? (make-move :pawn [0 6] [0 7] p-b p-w)) "Black move backwards")
     (is (invalid-move? (make-move :pawn [2 2] [3 2] p-w p-b)) "Pawn right move")
@@ -68,7 +69,7 @@
       (let [action (make-move :pawn [5 3] [4 2] p-b p-w)]
         (is (and (moved? :pawn [5 3] [4 2] action)
                  (taken? :pawn [4 3] action)) "Black en-passant")))
-    (is (promotion? [7 7] (make-move :pawn [7 6] [7 7] p-w p-b)) "White pawn promotion")))
+    (is (promote? [7 7] (make-move :pawn [7 6] [7 7] p-w p-b)) "White pawn promotion")))
 
 (deftest king-moves
   (let [p-w (ref {:pieces-color :white 

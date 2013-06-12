@@ -28,7 +28,7 @@
     (cell-center-coord [board-row board-col])))
 
 (defn coord-to-chess-square
-  "Converts coordinate to string representation of chess square"
+  "Converts coordinate to string representation of chess square, e.g g5"
   [coord]
   (let [[row col] (coord-to-cell coord)]
     (format "%c%d" (char (+ col 97)) (- 8 row))))

@@ -60,7 +60,6 @@
 
 (defn change-trurn []
   (swap! player update-in [:turn] not)
-  (println "Turn change with listeners" (:turn-listener @player))
   (doseq [listener (:turn-listener @player)]
     (listener)))
 
@@ -109,7 +108,10 @@
       (response-handler @msg-promise))))
 
 
-(defn make-move [piece from to success-fn failure-fn]
+(defn make-move
+  "Attempts to move a piece. Uppon success success-fn is called,
+   failure-fn called otherwise"
+  [piece from to success-fn failure-fn]
   (let [handler (fn [resp] 
                   (let [cnt (:content resp)]
                     (if-let [move (:move cnt)]

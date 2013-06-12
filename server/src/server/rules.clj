@@ -112,6 +112,8 @@
 (def promotion-pieces #{:queen :knight :rook :bishop})
 
 (defn promote-pawn-at-square [square pawn-owner promotion-piece]
+  (println "----" (:pieces-color @pawn-owner) "chose promotion" promotion-piece "at" square) 
+  (println "Valid promotion:" (promotion-pieces promotion-piece))
   (when (promotion-pieces promotion-piece)
     (dosync
      (alter pawn-owner update-in [:pieces :pawn] disj square)
@@ -218,9 +220,10 @@
       ;; Pawn moved one rank ahead
       (and (= to-rank rank-ahead)
            (or
-             ;; The move was one square forward
-             (= fr-file to-file) 
-             ;; The move was one square diagonal
+             ;; Move to unoccupied square immediately infront of it
+             (and (= fr-file to-file)
+                  (not (piece-on-square to opponent)))
+             ;; Move to adjacent diagonal square
              (and (= 1 (abs (- fr-file to-file))) 
                   (or
                     ;; 'En-passant' move 
@@ -329,7 +332,7 @@
       ;; check if pawn has moved to promotion
       (pawn-promotion-square? to color)
       (do
-        (assoc action :promotion {:piece :pawn :from to}))
+        (assoc action :promote {:piece :pawn :from to}))
 			   
       ;; If no piece is taken and the move was diagonal this must be an 'en-passant'
       (and (not (:take action))
