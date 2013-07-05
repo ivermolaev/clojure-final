@@ -66,7 +66,6 @@
         from (:from properties)
         color (:piece-color properties)
         mine? (:mine properties)]
-    (println "Promotion:" properties)
     (handle-action :take properties)
     (add-piece-to-board color p from mine?)))
 

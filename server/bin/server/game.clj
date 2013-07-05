@@ -48,13 +48,11 @@
                                            content))
                     
                     true (generate-string))]
-    (.println (:out-stream @receiver) msg)
-    (printf "Message sent to %s: %s\n" (:pieces-color @receiver) msg)))
+    (.println (:out-stream @receiver) msg)))
 
 (defn receive-message [sender]
   (let [msg (-> (.readLine (:in-stream @sender)) 
                 (parse-string true))]
-    (printf "Message received from %s: %s\n" (:pieces-color @sender) msg)
     (format-squares to-indexed-square msg)))
                     
 
@@ -135,7 +133,6 @@
           :actions []})))
       
 (defn start-game [player-white player-black]
-  (println "Game started")
   (let [white-pieces (pieces-with-chess-squares player-white)
         black-pieces (pieces-with-chess-squares player-black)]
     (send-message {:player   {:pieces-color :white

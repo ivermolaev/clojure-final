@@ -64,7 +64,6 @@
 
 (defmethod process-message :opponent-promotion
   [msg]
-  (println (get-my-color) ":opponent will do promotion")
   (handle-action :promotion 
                  (assoc (:content msg)
                         :piece-color (get-opponent-color)
@@ -77,7 +76,6 @@
         from (:from cnt)
         promotion-props {:piece piece :from from}
         handler (fn [resp]
-                  (println "Promotion answer received:" resp)
                   (if (:ok (:content resp))
                     (do
                       (handle-action :promotion 

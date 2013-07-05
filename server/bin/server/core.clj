@@ -17,7 +17,6 @@
     (println "Server started on port: " port)
     (while running? 
       (let [player-socket (accept-connection server-socket)]
-        (println "Player joined")
         (if-let [opponent-socket @awaiting-socket]
           (future 
             (start-game 

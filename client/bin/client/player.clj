@@ -83,19 +83,16 @@
   (let [msg (-> (.readLine (:in-stream @player)) 
                 (parse-string true))
         to-receive (format-squares chess-square-to-cell-center msg)]
-    (println ">> [Player" (get-my-color) "] :" to-receive)
     to-receive))
 
 (defn send-message
   "Sends message with givent content and type. 
   Blocks untill response is received and handled"
   [content type response-handler]
-  (println "![Player" (get-my-color) "] will send message with type:" type "content:" content)
   (let [msg-promise (promise)]
     ;; Reader should be waiting to receive message
     ;; Make sure we are next in it's queue before it is in waiting state again
     (send-off reader (fn [msg]
-                       (println "Should deliver promise")
                        (deliver msg-promise msg)
                        nil))
     (let [to-send (-> {:type type}
@@ -104,9 +101,7 @@
                                              content))
                       (generate-string))]
       (.println (:out-stream @player) to-send)
-      (println "<< [Player" (get-my-color) "] :" to-send)
       (response-handler @msg-promise))))
-
 
 (defn make-move
   "Attempts to move a piece. Uppon success success-fn is called,
